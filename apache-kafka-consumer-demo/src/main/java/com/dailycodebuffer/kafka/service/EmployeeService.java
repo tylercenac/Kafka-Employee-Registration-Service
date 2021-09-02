@@ -1,5 +1,7 @@
 package com.dailycodebuffer.kafka.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,13 @@ public class EmployeeService {
 		return employeeRepository.save(employee);
 	}
 	
+	public List<Employee> getAllEmployees(){
+		return employeeRepository.findAll();
+	}
 	
+	public List<Employee> getEmployeesByStatus(String status) {
+		return employeeRepository.findByStatus(status);
+	}
 	
 	
 	
