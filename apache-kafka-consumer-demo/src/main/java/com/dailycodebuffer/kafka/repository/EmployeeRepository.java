@@ -13,5 +13,6 @@ import java.util.List;
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 	
 	List<Employee> findByStatus(String status);
+	List<Employee> findByEmail(String email);
 }
 
