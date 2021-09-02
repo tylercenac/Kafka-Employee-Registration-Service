@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 public class DemoController {
 
     @Autowired
-    KafkaTemplate<String,Book> kafkaTemplate;
+    KafkaTemplate<String,Employee> kafkaTemplate;
 
-    private static final String TOPIC = "NewTopic";
+    private static final String TOPIC = "t_employee";
 
-    @PostMapping("/publish")
-    public String publishMessage(@RequestBody Book book)
+    @PostMapping("/register")
+    public String publishMessage(@RequestBody Employee employee)
     {
-        kafkaTemplate.send(TOPIC, book);
-        return "Published Successfully!";
+        kafkaTemplate.send(TOPIC, employee);
+        return employee.toString();
     }
 }
