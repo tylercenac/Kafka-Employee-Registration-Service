@@ -13,10 +13,18 @@ public class DemoController {
     private static final String TOPIC = "t_employee";
 
     @PostMapping("/register")
-    public String publishMessage(@RequestBody Employee employee)
+    public String registerEmployee(@RequestBody Employee employee)
     {
     	System.out.println(employee.getStatus_date());
         kafkaTemplate.send(TOPIC, employee);
         return "Employee registered successfully!";
+    }
+    
+    @PostMapping("/approve")
+    public String approveEmployee(@RequestBody Employee employee)
+    {
+    	employee.setStatus("APPROVED")
+        kafkaTemplate.send(TOPIC, employee);
+        return "Employee approved!";
     }
 }
