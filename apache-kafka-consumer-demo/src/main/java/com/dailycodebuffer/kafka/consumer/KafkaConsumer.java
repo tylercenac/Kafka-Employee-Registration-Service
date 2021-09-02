@@ -28,9 +28,16 @@ public class KafkaConsumer {
     	
     	for(int i = 0; i<properties.length; i++) {
     		
+			String key = properties[i].split(":")[0];
     		String value = properties[i].split(":")[1];
+			System.out.println(key.substring(1, key.length()-1));
+			
     		int start = 1;
     	    int end = value.length()-1;
+			if(key.substring(1, key.length()-1).equals("status_date")){
+				end = value.length()-2;
+			}
+			
     	    
     	    params[i] = value.substring(start, end);
     	    
