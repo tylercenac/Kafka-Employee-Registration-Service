@@ -15,7 +15,8 @@ public class DemoController {
     @PostMapping("/register")
     public String publishMessage(@RequestBody Employee employee)
     {
+    	System.out.println(employee.getStatus_date());
         kafkaTemplate.send(TOPIC, employee);
-        return employee.toString();
+        return "Employee registered successfully!";
     }
 }

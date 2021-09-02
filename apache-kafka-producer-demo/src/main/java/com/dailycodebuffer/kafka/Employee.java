@@ -1,5 +1,6 @@
 package com.dailycodebuffer.kafka;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Employee {
@@ -8,13 +9,13 @@ public class Employee {
 	private String firstName;
 	private String lastName;
 	private String status;
-	private Date status_date;
+	private String status_date;
 	
 	
 	public Employee() {
 		super();
 		this.status = "PENDING";
-		this.status_date = new Date();
+		this.status_date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 	}
 	
 	
@@ -84,20 +85,22 @@ public class Employee {
 	/**
 	 * @return the status_date
 	 */
-	public Date getStatus_date() {
+	public String getStatus_date() {
 		return status_date;
 	}
 	/**
 	 * @param status_date the status_date to set
 	 */
-	public void setStatus_date(Date status_date) {
+	public void setStatus_date(String status_date) {
 		this.status_date = status_date;
 	}
+	
+	/*
 	@Override
 	public String toString() {
 		return "Employee [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", status=" + status
 				+ ", status_date=" + status_date + "]";
 	}
-	
+	*/
 	
 }

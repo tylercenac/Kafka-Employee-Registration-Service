@@ -9,6 +9,8 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
+import com.dailycodebuffer.kafka.entity.Employee;
+
 import java.util.HashMap;
 import java.util.Map;
 
