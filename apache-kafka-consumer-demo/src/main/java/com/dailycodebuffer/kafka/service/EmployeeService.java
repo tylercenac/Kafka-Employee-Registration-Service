@@ -14,9 +14,10 @@ public class EmployeeService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
-	public Employee registerEmployee(Employee employee) {
+	public Employee saveEmployee(Employee employee) {
 		return employeeRepository.save(employee);
 	}
+	
 	
 	public List<Employee> getAllEmployees(){
 		return employeeRepository.findAll();

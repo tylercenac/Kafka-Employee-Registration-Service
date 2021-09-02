@@ -1,5 +1,8 @@
 package com.dailycodebuffer.kafka.consumer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -17,7 +20,16 @@ public class KafkaConsumer {
     public void consume(String employee)
     {
     	Employee emp = convertEmployeeStringToEmployeeObject(employee);	
-        employeeService.registerEmployee(emp);
+        employeeService.saveEmployee(emp);
+        
+        if(emp.getStatus().equals("PENDING")) {
+        	System.out.println("Employee registration saved!");
+        } else if(emp.getStatus().equals("APPROVED")) {
+        	System.out.println("Employee approval saved!");
+        } else {
+        	System.out.println("Invalid employee status");
+        }
+        
     }
     
     
@@ -30,7 +42,6 @@ public class KafkaConsumer {
     		
 			String key = properties[i].split(":")[0];
     		String value = properties[i].split(":")[1];
-			System.out.println(key.substring(1, key.length()-1));
 			
     		int start = 1;
     	    int end = value.length()-1;
