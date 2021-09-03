@@ -27,7 +27,7 @@ public class EmployeeService {
 		return employeeRepository.findByStatus(status);
 	}
 	
-	public List<Employee> getEmployeesByEmail(String email) {
+	public Employee getEmployeeByEmail(String email) {
 		return employeeRepository.findByEmail(email);
 	}
 	

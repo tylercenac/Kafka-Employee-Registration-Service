@@ -15,6 +15,12 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
+	// TO DO
+    // REFACTOR THIS CLASS SO THAT IT
+    // HAS A PRODUCERFACTORY AND TEMPLATE
+	// FOR REGISTRATION<STRING,EMPLOYEE> AND APPROVAL<STRING, INT>
+	
+	
     @Bean
     public ProducerFactory<String,Employee> producerFactory()
     {
@@ -31,5 +37,24 @@ public class KafkaConfig {
     public KafkaTemplate kafkaTemplate()
     {
         return  new KafkaTemplate<>(producerFactory());
+    }
+    
+    
+    @Bean
+    public ProducerFactory<String,String> producerFactory2()
+    {
+        Map<String,Object> config = new HashMap<>();
+
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        return  new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate kafkaTemplate2()
+    {
+        return  new KafkaTemplate<>(producerFactory2());
     }
 }

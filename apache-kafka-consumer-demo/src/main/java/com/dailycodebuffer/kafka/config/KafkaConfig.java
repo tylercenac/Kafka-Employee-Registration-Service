@@ -18,6 +18,11 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
+	// TO DO
+    // REFACTOR THIS CLASS SO THAT IT
+    // HAS A CONSUMERFACTORY AND CONTAINERFACTORY
+	// FOR REGISTRATION<STRING,EMPLOYEE> AND APPROVAL<STRING, INT>
+	
     @Bean
     public ConsumerFactory<String, String> consumerFactory()
     {
@@ -38,4 +43,7 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         return  factory;
     }
+
+    
+    
 }

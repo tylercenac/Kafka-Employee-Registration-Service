@@ -16,21 +16,37 @@ public class KafkaConsumer {
 	@Autowired
 	EmployeeService employeeService;
 
+
     @KafkaListener(topics = "t_employee", groupId = "group_id")
-    public void consume(String employee)
-    {
-    	Employee emp = convertEmployeeStringToEmployeeObject(employee);	
-        employeeService.saveEmployee(emp);
-        
-        if(emp.getStatus().equals("PENDING")) {
-        	System.out.println("Employee registration saved!");
-        } else if(emp.getStatus().equals("APPROVED")) {
-        	System.out.println("Employee approval saved!");
-        } else {
-        	System.out.println("Invalid employee status");
-        }
-        
+    public void consume(String message) {
+    	
+    	String action = message.split(":")[0].substring(1);
+    	String values = message.split(":")[1];
+    	
+    	if(action.equals("APPROVING")) {
+    		Employee emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
+    		if(emp != null) {
+    			emp.setStatus("APPROVED");
+	    		emp.setStatus_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+	    		employeeService.saveEmployee(emp);
+	    		System.out.println("Employee with email" +values.substring(0, values.length()-1)+" approved!");
+	    		
+    		} else {
+    			System.out.println("Error: Employee with email " +values.substring(0, values.length()-1)+" not found!");
+    		}
+    		
+    	} else {
+    		Employee emp = convertEmployeeStringToEmployeeObject(message);	
+            employeeService.saveEmployee(emp);
+            System.out.println("Employee with email " + emp.getEmail() + " registered!");
+    	}
+    	
+    	
+    	
+    	
+    	
     }
+    
     
     
     public Employee convertEmployeeStringToEmployeeObject(String employeeString) {

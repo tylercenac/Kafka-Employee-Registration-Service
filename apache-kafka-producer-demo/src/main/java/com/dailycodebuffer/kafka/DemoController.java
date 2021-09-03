@@ -12,26 +12,26 @@ public class DemoController {
 
     @Autowired
     KafkaTemplate<String,Employee> kafkaTemplate;
+    
+    @Autowired
+    KafkaTemplate<String,String> kafkaTemplate2;
 
     private static final String TOPIC = "t_employee";
 
     @PostMapping("/register")
     public String registerEmployee(@RequestBody Employee employee)
     {
-    	System.out.println("Employee registered successfully!");
+    	System.out.println("Registering employee...");
         kafkaTemplate.send(TOPIC, employee);
         return "Employee registered successfully!";
     }
     
-    @PostMapping("/approve")
-    public String approveEmployee(@RequestBody Employee employee)
+    @PostMapping("/approve/{email}")
+    public String approveEmployee(@PathVariable String email)
     {
     	
-    	employee.setStatus("APPROVED");
-    	employee.setStatus_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-    	
-    	System.out.println("Employee approved!");
-        kafkaTemplate.send(TOPIC, employee);
+    	String message = ("APPROVING:" + email);
+        kafkaTemplate2.send(TOPIC, message);
         return "Employee approved!";
     }
 }

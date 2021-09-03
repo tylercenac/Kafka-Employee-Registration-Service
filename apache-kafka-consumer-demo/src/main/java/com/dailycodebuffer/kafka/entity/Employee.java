@@ -48,8 +48,8 @@ public class Employee {
 		this.status_date = status_date;
 	}
 	
-	
-	
+
+
 	/**
 	 * @return the email
 	 */

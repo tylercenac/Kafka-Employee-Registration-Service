@@ -28,8 +28,8 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/getByEmail/{email}")
-	public List<Employee> getEmployeesByEmail(@PathVariable String email) {
-		return employeeService.getEmployeesByEmail(email);
+	public Employee getEmployeeByEmail(@PathVariable String email) {
+		return employeeService.getEmployeeByEmail(email);
 	}
 	
 	
