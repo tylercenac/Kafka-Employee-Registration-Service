@@ -16,12 +16,58 @@ public class KafkaConsumer {
 	@Autowired
 	EmployeeService employeeService;
 
-
-    @KafkaListener(topics = "t_employee", groupId = "group_id")
+	
+	@KafkaListener(topics = "t_employee", groupId = "group_id")
     public void consume(String message) {
     	
     	String action = message.split(":")[0].substring(1);
     	String values = message.split(":")[1];
+    	Employee emp;
+    	
+    	if(action.equals("APPROVING")) {
+    		emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
+    		if(emp != null) {
+    			emp.setStatus("APPROVED");
+	    		emp.setStatus_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+	    		employeeService.saveEmployee(emp);
+	    		System.out.println("Employee with email" +values.substring(0, values.length()-1)+" approved!");
+	    		
+    		} else {
+    			System.out.println("Error: Employee with email " +values.substring(0, values.length()-1)+" not found!");
+    		}
+    		
+    	} else if(action.equals("DECLINING")) {
+    		emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
+    		if(emp != null) {
+    			
+	    		employeeService.declineEmployee(emp.getEmail());
+	    		System.out.println("Employee with email" +values.substring(0, values.length()-1)+" declined!");
+	    		
+    		} else {
+    			System.out.println("Error: Employee with email " +values.substring(0, values.length()-1)+" not found!");
+    		}
+    		
+    	} else {
+    		emp = convertEmployeeStringToEmployeeObject(message);	
+            employeeService.saveEmployee(emp);
+            System.out.println("Employee with email " + emp.getEmail() + " registered!");
+    	}
+    	
+    	
+    	
+    	
+    	
+    }
+	
+	
+/*
+    @KafkaListener(topics = "t_employee", groupId = "group_id")
+    public void consume(String message) {
+    	
+    
+    	String action = message.split(":")[0].substring(1);
+    	String values = message.split(":")[1];
+    	System.out.println("Action="+action);
     	Employee emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
     	
     	if(action.equals("APPROVING")) {
@@ -44,19 +90,21 @@ public class KafkaConsumer {
     			
     			
 	    		System.out.println("Employee with email" +values.substring(0, values.length()-1)+" approved!");
-    	}else {
-    		emp = convertEmployeeStringToEmployeeObject(message);	
-            employeeService.saveEmployee(emp);
-            System.out.println("Employee with email " + emp.getEmail() + " registered!");
+    	}else if (action.substring(1, action.length()-1).equals("email")) {
+    		Employee emp2 = convertEmployeeStringToEmployeeObject(message);	
+            employeeService.saveEmployee(emp2);
+            System.out.println("Employee with email " + emp2.getEmail() + " registered!");
+    	} else {
+    		System.out.println("Invalid action");
     	}
 	}
     	
-    	
+   
     	
     	
     }
     
-    
+    */ 
     
     public Employee convertEmployeeStringToEmployeeObject(String employeeString) {
     	
