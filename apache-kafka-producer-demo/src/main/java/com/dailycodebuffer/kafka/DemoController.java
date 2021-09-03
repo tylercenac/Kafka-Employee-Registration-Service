@@ -34,4 +34,13 @@ public class DemoController {
         kafkaTemplate2.send(TOPIC, message);
         return "Employee approved!";
     }
+    
+    @PostMapping("/decline/{email}")
+    public String declineEmployee(@PathVariable String email)
+    {
+    	
+    	String message = ("DECLINING:" + email);
+        kafkaTemplate2.send(TOPIC, message);
+        return "Employee approved!";
+    }
 }

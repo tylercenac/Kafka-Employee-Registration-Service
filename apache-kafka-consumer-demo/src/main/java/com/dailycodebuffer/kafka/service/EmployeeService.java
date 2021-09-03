@@ -31,4 +31,9 @@ public class EmployeeService {
 		return employeeRepository.findByEmail(email);
 	}
 	
+	public String declineEmployee(String id) {
+		employeeRepository.deleteById(id);
+		return "Employee with email= " + id + " has been deleted if existing";
+	}
+	
 }

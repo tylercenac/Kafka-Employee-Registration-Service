@@ -22,9 +22,10 @@ public class KafkaConsumer {
     	
     	String action = message.split(":")[0].substring(1);
     	String values = message.split(":")[1];
+    	Employee emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
     	
     	if(action.equals("APPROVING")) {
-    		Employee emp = employeeService.getEmployeeByEmail(values.substring(0, values.length()-1));
+    		
     		if(emp != null) {
     			emp.setStatus("APPROVED");
 	    		emp.setStatus_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
@@ -35,12 +36,20 @@ public class KafkaConsumer {
     			System.out.println("Error: Employee with email " +values.substring(0, values.length()-1)+" not found!");
     		}
     		
-    	} else {
-    		Employee emp = convertEmployeeStringToEmployeeObject(message);	
+    	} else if (action.equals("DECLINING")){
+    		
+    		if(emp != null) {
+    			
+    			employeeService.declineEmployee(values.substring(0, values.length()-1));
+    			
+    			
+	    		System.out.println("Employee with email" +values.substring(0, values.length()-1)+" approved!");
+    	}else {
+    		emp = convertEmployeeStringToEmployeeObject(message);	
             employeeService.saveEmployee(emp);
             System.out.println("Employee with email " + emp.getEmail() + " registered!");
     	}
-    	
+	}
     	
     	
     	
